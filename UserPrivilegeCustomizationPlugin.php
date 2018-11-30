@@ -5,15 +5,9 @@ class UserPrivilegeCustomizationPlugin extends Omeka_Plugin_AbstractPlugin
 
     function hookDefineAcl($args)
     {
-        $acl = $args['acl'];
+				$acl = $args['acl'];
 
-        $indexResource = new Zend_Acl_Resource('SimplePages_Index');
-        $pageResource = new Zend_Acl_Resource('SimplePages_Page');
-        $acl->add($indexResource);
-        $acl->add($pageResource);
-
-        $acl->allow(array('super', 'admin'), array('SimplePages_Index', 'SimplePages_Page'));
-        $acl->allow(null, 'SimplePages_Page', 'show');
-        $acl->deny(null, 'SimplePages_Page', 'show-unpublished');
+				// Modify default Contributor privileges to allow Contributors to make items public.
+				$acl->allow('contributor', 'Items', array('add', 'tag', 'batch-edit', 'batch-edit-save', 'change-type', 'delete-confirm', 'editSelf', 'deleteSelf', 'showSelfNotPublic', 'makePublic'));
     }
 }
